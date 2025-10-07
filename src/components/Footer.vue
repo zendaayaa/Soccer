@@ -2,7 +2,7 @@
   <footer class="footer">
     <div class="footer-content">
       <div class="footer-section">
-        <h3 class="footer-title">Aztec United</h3>
+        <h3 class="footer-title">Aztec Sports</h3>
         <p class="footer-description">
           Building a community through the beautiful game. Join us on our journey to excellence.
         </p>
@@ -56,7 +56,7 @@
     </div>
 
     <div class="footer-bottom">
-      <p>&copy; {{ currentYear }} Aztec United. All rights reserved.</p>
+      <p>&copy; {{ currentYear }} Aztec Sports. All rights reserved.</p>
     </div>
   </footer>
 </template>

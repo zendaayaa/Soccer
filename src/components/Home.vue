@@ -1,7 +1,7 @@
 <template>
   <section id="home" class="home-section">
     <div class="hero-content">
-      <h1 class="hero-title">Welcome to Aztec United</h1>
+      <h1 class="hero-title">Welcome to Aztec Sports</h1>
       <p class="hero-subtitle">Where passion meets excellence on the field</p>
       <button class="cta-button">Join Our Team</button>
     </div>
