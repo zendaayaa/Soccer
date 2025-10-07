@@ -1,27 +1,26 @@
 <template>
   <nav class="navbar">
     <div class="logo">Aztec United</div>
-
     <div class="menu-icon" @click="toggleMenu">
       <span v-if="!menuOpen">&#9776;</span>
       <span v-else>&times;</span>
     </div>
-
     <ul :class="['nav-links', { open: menuOpen }]">
-      <li><a href="#">Home</a></li>
-      <li><a href="#">About</a></li>
-      <li><a href="#">Fixtures</a></li>
-      <li><a href="#">Announcements</a></li>
-      <li><a href="#">Membership</a></li>
-      <li><a href="#">Contact</a></li>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#fixtures">Fixtures</a></li>
+      <li><a href="#announcements">Announcements</a></li>
+      <li><a href="#membership">Membership</a></li>
+      <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 
 const menuOpen = ref(false);
+
 const toggleMenu = () => {
   menuOpen.value = !menuOpen.value;
 };
@@ -38,8 +37,10 @@ const toggleMenu = () => {
   position: fixed;
   width: 100%;
   top: 0;
+  left: 0;
   z-index: 100;
   font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
 }
 
 .logo {
@@ -52,6 +53,8 @@ const toggleMenu = () => {
   list-style: none;
   display: flex;
   gap: 25px;
+  margin: 0;
+  padding: 0;
   transition: all 0.3s ease-in-out;
 }
 
@@ -97,10 +100,17 @@ const toggleMenu = () => {
     width: 100%;
     text-align: center;
     display: none;
+    padding: 20px 0;
   }
+  
   .nav-links.open {
     display: flex;
   }
+  
+  .nav-links li {
+    padding: 10px 0;
+  }
+  
   .menu-icon {
     display: block;
   }
