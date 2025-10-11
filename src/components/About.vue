@@ -66,8 +66,8 @@ export default {
         title: 'About Aztec Sports',
         subtitle: 'Where Champions Are Built',
         heroImage: '/Aztec.jpg',
-        mission: 'At Aztec Sports, we\'re dedicated to developing athletic excellence and fostering a community of champions. We believe in the power of sports to transform lives and build character.',
-        vision: 'Our vision is to be the leading sports organization that inspires athletes to reach their full potential while maintaining integrity, discipline, and sportsmanship in all endeavors.',
+        mission: 'At Aztec Sports, our mission is to develop skilled, disciplined and confident players through quality training and teamwork.',
+        vision: 'Our vision is to create a united football community where every player has the opportunity to grow, learn and thrive.',
         values: [
           {
             icon: '🏆',
@@ -92,32 +92,32 @@ export default {
         ],
         team: [
           {
-            name: 'Sabrina',
-            role: 'Director of Athletics',
-            image: '/Aztec.jpg'
+            name: 'Yumna Fauz',
+            role: 'Director of Aztec',
+            image: '/Yumna.jpg'
           },
           {
-            name: 'Fatma',
+            name: 'Abdo Gamal',
             role: 'Head Coach',
-            image: '/Aztec.jpg'
+            image: '/Gamal.jpg'
           },
           {
-            name: 'Skai',
+            name: 'Mhammad Rakib',
             role: 'Coaching Assistant',
-            image: '/Aztec.jpg'
+            image: '/Rakib.jpg'
           }
         ],
         stats: [
           {
-            number: '500+',
+            number: '100+',
             label: 'Active Athletes'
           },
           {
-            number: '25+',
+            number: '17+',
             label: 'Championships Won'
           },
           {
-            number: '15',
+            number: '6',
             label: 'Years of Excellence'
           },
           {
