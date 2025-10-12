@@ -1,5 +1,5 @@
 <template>
-  <section class="about-section">
+  <section id="about" class="about-section">
     <div class="container">
       <!-- Hero Section -->
       <div class="hero-section">
