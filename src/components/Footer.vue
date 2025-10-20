@@ -56,7 +56,7 @@
     </div>
 
     <div class="footer-bottom">
-      <p>&copy; {{ currentYear }} Aztec Sports. All rights reserved.</p>
+      <p>&copy; {{ currentYear }} Aztec Sports. Powered by Skai</p>
     </div>
   </footer>
 </template>
