@@ -29,8 +29,11 @@ This Strapi instance contains the following content types:
 
 2. Access admin panel: http://localhost:1337/admin
 
-3. Set API Permissions:
+3. Create your first admin user (if you haven't already)
+
+4. Set API Permissions:
    - Go to Settings → Users & Permissions Plugin → Roles → Public
+   - You should now see all content types!
    - Enable the following:
      * About: find
      * Announcement: find, findOne
@@ -39,14 +42,42 @@ This Strapi instance contains the following content types:
      * Membership-plan: find, findOne
      * Match: find, findOne
 
-4. Add your content through the admin panel
+5. Add your content through the admin panel
 
-5. Test API endpoints:
+6. Test API endpoints:
    - http://localhost:1337/api/about?populate=deep
    - http://localhost:1337/api/announcements
    - http://localhost:1337/api/contact-info?populate=deep
    - http://localhost:1337/api/membership-plans
    - http://localhost:1337/api/matches?populate=*
+
+## File Structure Created
+
+```
+src/
+├── api/
+│   ├── about/
+│   │   ├── content-types/about/schema.json
+│   │   ├── controllers/about.js
+│   │   ├── services/about.js
+│   │   └── routes/about.js
+│   ├── announcement/
+│   │   ├── content-types/announcement/schema.json
+│   │   ├── controllers/announcement.js
+│   │   ├── services/announcement.js
+│   │   └── routes/announcement.js
+│   ├── contact-info/
+│   ├── contact-submission/
+│   ├── membership-plan/
+│   └── match/
+└── components/
+    ├── about/
+    │   ├── value.json
+    │   ├── team-member.json
+    │   └── stat.json
+    └── contact/
+        └── social-link.json
+```
 
 ## Sample Data Examples
 
@@ -64,6 +95,20 @@ This Strapi instance contains the following content types:
 ### Social Media Icon (SVG):
 Use the SVG icons from Font Awesome, Heroicons, or your preferred icon library.
 
-## Backup Your Data
+## Troubleshooting
+
+### Content types not showing in Roles & Permissions?
+- Make sure you've restarted Strapi completely
+- Check the terminal for any error messages
+- Verify all files were created correctly
+- Try rebuilding: `npm run build` or `yarn build`
+
+### Database issues?
 Your SQLite database is located at: `.tmp/data.db`
-Make sure to backup this file regularly!
+If you need to start fresh:
+1. Stop Strapi
+2. Delete `.tmp/data.db`
+3. Restart Strapi
+
+## Backup Your Data
+Make sure to backup your `.tmp/data.db` file regularly!
