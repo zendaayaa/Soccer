@@ -1,0 +1,57 @@
+{
+  "kind": "collectionType",
+  "collectionName": "announcements",
+  "info": {
+    "singularName": "announcement",
+    "pluralName": "announcements",
+    "displayName": "Announcement"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "excerpt": {
+      "type": "text",
+      "maxLength": 200,
+      "required": true
+    },
+    "content": {
+      "type": "blocks",
+      "required": true
+    },
+    "category": {
+      "type": "enumeration",
+      "required": true,
+      "default": "news",
+      "enum": [
+        "news",
+        "event",
+        "update",
+        "alert"
+      ]
+    },
+    "priority": {
+      "type": "enumeration",
+      "required": true,
+      "default": "normal",
+      "enum": [
+        "high",
+        "normal",
+        "low"
+      ]
+    },
+    "featuredImage": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    }
+  }
+}
