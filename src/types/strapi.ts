@@ -162,7 +162,7 @@ export interface MatchAttributes {
   awayTeamName: string;
   awayTeamLogo: StrapiMedia;
   awayTeamScore: number | null;
-  status: 'upcoming' | 'live' | 'completed' | 'postponed' | 'cancelled';
+  statuss: 'upcoming' | 'live' | 'completed' | 'postponed' | 'cancelled';
   matchReport: string | null;
   highlights: string | null;
   createdAt: string;

@@ -118,7 +118,7 @@ class StrapiService {
 
   // Matches/Fixtures
   async getMatches(filters?: {
-    status?: string;
+    statuss?: string;
     page?: number;
     pageSize?: number;
   }): Promise<StrapiCollectionResponse<MatchAttributes>> {
@@ -133,10 +133,10 @@ class StrapiService {
           page: filters?.page || 1,
           pageSize: filters?.pageSize || 20,
         },
-        ...(filters?.status && {
+        ...(filters?.statuss && {
           filters: {
             status: {
-              $eq: filters.status,
+              $eq: filters.statuss,
             },
           },
         }),
