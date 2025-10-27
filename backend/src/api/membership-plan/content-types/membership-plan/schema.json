@@ -1,0 +1,58 @@
+{
+  "kind": "collectionType",
+  "collectionName": "membership_plans",
+  "info": {
+    "singularName": "membership-plan",
+    "pluralName": "membership-plans",
+    "displayName": "Membership Plan"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "icon": {
+      "type": "string",
+      "required": true
+    },
+    "price": {
+      "type": "string",
+      "required": true
+    },
+    "period": {
+      "type": "enumeration",
+      "required": true,
+      "default": "month",
+      "enum": [
+        "month",
+        "quarter",
+        "year"
+      ]
+    },
+    "features": {
+      "type": "json",
+      "required": true
+    },
+    "buttonText": {
+      "type": "string",
+      "default": "Get Started",
+      "required": false
+    },
+    "featured": {
+      "type": "boolean",
+      "required": false,
+      "default": false
+    },
+    "order": {
+      "type": "integer"
+    }
+  }
+}

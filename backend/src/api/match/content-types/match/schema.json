@@ -1,0 +1,78 @@
+{
+  "kind": "collectionType",
+  "collectionName": "matches",
+  "info": {
+    "singularName": "match",
+    "pluralName": "matches",
+    "displayName": "Match"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "competition": {
+      "type": "string",
+      "required": true
+    },
+    "date": {
+      "type": "datetime",
+      "required": true
+    },
+    "venue": {
+      "type": "string",
+      "required": true
+    },
+    "homeTeamName": {
+      "type": "string",
+      "required": true
+    },
+    "homeTeamLogo": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "homeTeamScore": {
+      "type": "integer",
+      "required": true
+    },
+    "awayTeamName": {
+      "type": "string",
+      "required": true
+    },
+    "awayTeamLogo": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "awayTeamScore": {
+      "type": "integer",
+      "required": true
+    },
+    "statuss": {
+      "type": "enumeration",
+      "required": true,
+      "default": "upcoming",
+      "enum": [
+        "upcoming",
+        "live",
+        "completed",
+        "postponed",
+        "cancelled"
+      ]
+    },
+    "matchReport": {
+      "type": "blocks",
+      "required": false
+    },
+    "highlights": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "kind": "singleType",
+  "collectionName": "abouts",
+  "info": {
+    "singularName": "about",
+    "pluralName": "abouts",
+    "displayName": "about"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "About Aztec Sports",
+      "required": true
+    },
+    "subtitle": {
+      "type": "string",
+      "required": true
+    },
+    "heroImage": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "mission": {
+      "type": "string",
+      "required": true
+    },
+    "vision": {
+      "type": "string",
+      "required": true
+    },
+    "values": {
+      "type": "component",
+      "component": "about.value",
+      "repeatable": true,
+      "required": true
+    },
+    "team": {
+      "type": "component",
+      "component": "about.team-member",
+      "repeatable": true,
+      "required": true
+    },
+    "stat": {
+      "type": "component",
+      "component": "about.stat",
+      "repeatable": true,
+      "required": true
+    }
+  }
+}
