@@ -19,10 +19,6 @@
       "type": "text",
       "required": true
     },
-    "icon": {
-      "type": "string",
-      "required": true
-    },
     "price": {
       "type": "string",
       "required": true
@@ -37,22 +33,28 @@
         "year"
       ]
     },
-    "features": {
-      "type": "json",
-      "required": true
-    },
     "buttonText": {
       "type": "string",
       "default": "Get Started",
       "required": false
     },
+    "icon": {
+      "type": "string",
+      "default": "⭐"
+    },
+    "features": {
+      "type": "json"
+    },
     "featured": {
       "type": "boolean",
-      "required": false,
       "default": false
     },
     "order": {
-      "type": "integer"
+      "type": "integer",
+      "default": 0
+    },
+    "stripePriceId": {
+      "type": "string"
     }
   }
 }

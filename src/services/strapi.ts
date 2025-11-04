@@ -12,6 +12,7 @@ import type {
 } from '@/types/strapi';
 
 const API_URL = import.meta.env.VITE_STRAPI_URL || 'http://localhost:1337/api';
+const API_BASE = API_URL.replace(/\/api$/,'');
 
 class StrapiService {
   private api: AxiosInstance;
@@ -118,7 +119,7 @@ class StrapiService {
 
   // Matches/Fixtures
   async getMatches(filters?: {
-    statuss?: string;
+    status?: string;
     page?: number;
     pageSize?: number;
   }): Promise<StrapiCollectionResponse<MatchAttributes>> {
@@ -133,10 +134,10 @@ class StrapiService {
           page: filters?.page || 1,
           pageSize: filters?.pageSize || 20,
         },
-        ...(filters?.statuss && {
+        ...(filters?.status && {
           filters: {
             status: {
-              $eq: filters.statuss,
+              $eq: filters.status,
             },
           },
         }),
@@ -161,7 +162,8 @@ class StrapiService {
   getMediaUrl(media: StrapiMedia | null | undefined): string | null {
     if (!media?.data) return null;
     const url = media.data.attributes.url;
-    return url ? `http://localhost:1337${url}` : null;
+    if (!url) return null;
+    return url.startsWith('http') ? url : `${API_BASE}${url}`;
   }
 
   // Helper to format date

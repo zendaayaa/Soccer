@@ -7,12 +7,24 @@
         <p class="subtitle">Choose the perfect plan for your athletic journey</p>
       </div>
 
+      <!-- Loading State -->
+      <div v-if="isLoadingPlans" class="loading-state">
+        <div class="loading-spinner"></div>
+        <p>Loading membership plans...</p>
+      </div>
+
+      <!-- Error State -->
+      <div v-else-if="plansError" class="error-state glass-card">
+        <p>{{ plansError }}</p>
+        <button @click="fetchMembershipPlans" class="retry-button">Try Again</button>
+      </div>
+
       <!-- Membership Plans Grid -->
-      <div class="plans-grid">
+      <div v-else-if="membershipPlans.length > 0" class="plans-grid">
         <div 
           v-for="plan in membershipPlans" 
           :key="plan.id"
-          class="plan-card"
+          class="plan-card glass elevate"
           :class="{ 'featured': plan.featured }"
         >
           <!-- Featured Badge -->
@@ -56,6 +68,11 @@
             {{ plan.buttonText }}
           </button>
         </div>
+      </div>
+
+      <!-- Empty State -->
+      <div v-else class="empty-state glass-card">
+        <p>No membership plans available at the moment. Please check back later.</p>
       </div>
 
       <!-- Benefits Section -->
@@ -111,7 +128,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
+import { startCheckout } from '@/services/checkout';
+import strapiService from '@/services/strapi';
 
 // TypeScript Interfaces
 interface MembershipPlan {
@@ -124,6 +143,7 @@ interface MembershipPlan {
   features: string[];
   buttonText: string;
   featured: boolean;
+  stripePriceId?: string;
 }
 
 interface Benefit {
@@ -137,66 +157,10 @@ interface FAQ {
   answer: string;
 }
 
-// Membership Plans - Replace with Strapi API call
-const membershipPlans = ref<MembershipPlan[]>([
-  {
-    id: 1,
-    name: 'Starter',
-    description: 'Perfect for beginners getting started',
-    icon: '🌱',
-    price: '2,500',
-    period: 'month',
-    features: [
-      '2 training sessions per week',
-      'Access to basic facilities',
-      'Group training only',
-      'Basic equipment usage',
-      'Monthly progress report'
-    ],
-    buttonText: 'Get Started',
-    featured: false
-  },
-  {
-    id: 2,
-    name: 'Athlete',
-    description: 'Our most popular choice for serious athletes',
-    icon: '⚡',
-    price: '4,500',
-    period: 'month',
-    features: [
-      '4 training sessions per week',
-      'Full facility access',
-      'Group & semi-private training',
-      'Premium equipment access',
-      'Nutrition guidance',
-      'Weekly progress tracking',
-      'Priority booking'
-    ],
-    buttonText: 'Choose Athlete',
-    featured: true
-  },
-  {
-    id: 3,
-    name: 'Elite',
-    description: 'Premium package for competitive athletes',
-    icon: '🏆',
-    price: '7,500',
-    period: 'month',
-    features: [
-      'Unlimited training sessions',
-      'VIP facility access',
-      'One-on-one coaching',
-      'All equipment & facilities',
-      'Personalized nutrition plan',
-      'Daily progress monitoring',
-      'Competition preparation',
-      'Recovery & wellness sessions',
-      'Priority support 24/7'
-    ],
-    buttonText: 'Go Elite',
-    featured: false
-  }
-]);
+// Membership Plans - Loaded from Strapi
+const membershipPlans = ref<MembershipPlan[]>([]);
+const isLoadingPlans = ref(false);
+const plansError = ref<string | null>(null);
 
 // Benefits
 const benefits = reactive<Benefit[]>([
@@ -263,10 +227,15 @@ const faqs = reactive<FAQ[]>([
 const activeFaq = ref<number | null>(null);
 
 // Methods
-const selectPlan = (plan: MembershipPlan) => {
-  console.log('Selected plan:', plan);
-  // TODO: Implement plan selection logic (navigate to registration/payment)
-  // router.push(`/register?plan=${plan.id}`)
+const selectPlan = async (plan: MembershipPlan) => {
+  if (!plan.stripePriceId) {
+    alert('This plan is not yet connected to payments. Please contact admin.');
+    return;
+  }
+  await startCheckout(plan.stripePriceId, {
+    successUrl: window.location.origin + '/success',
+    cancelUrl: window.location.origin + '/cancel',
+  });
 };
 
 const toggleFaq = (index: number) => {
@@ -279,25 +248,102 @@ const scrollToPlans = () => {
 };
 
 // Fetch membership data from Strapi
-// const fetchMembershipPlans = async () => {
-//   try {
-//     const response = await fetch(`${import.meta.env.VITE_STRAPI_URL}/api/membership-plans?populate=*`);
-//     const data = await response.json();
-//     membershipPlans.value = data.data.map((item: any) => ({
-//       id: item.id,
-//       name: item.attributes.name,
-//       description: item.attributes.description,
-//       icon: item.attributes.icon,
-//       price: item.attributes.price,
-//       period: item.attributes.period,
-//       features: item.attributes.features,
-//       buttonText: item.attributes.buttonText,
-//       featured: item.attributes.featured
-//     }));
-//   } catch (error) {
-//     console.error('Error fetching membership plans:', error);
-//   }
-// };
+const fetchMembershipPlans = async () => {
+  isLoadingPlans.value = true;
+  plansError.value = null;
+  try {
+    const response = await strapiService.getMembershipPlans();
+    // Handle both Strapi v4 (nested attributes) and v5 (flat structure) formats
+    membershipPlans.value = response.data.map((item: any) => {
+      // Check if data is in Strapi v4 format (nested attributes) or v5 format (flat)
+      const attrs = item.attributes || item;
+      return {
+        id: item.id,
+        name: attrs.name || '',
+        description: attrs.description || '',
+        icon: attrs.icon || '⭐',
+        price: attrs.price || '',
+        period: attrs.period || 'month',
+        features: Array.isArray(attrs.features) ? attrs.features : [],
+        buttonText: attrs.buttonText || 'Get Started',
+        featured: attrs.featured || false,
+        stripePriceId: attrs.stripePriceId,
+      };
+    });
+  } catch (error: any) {
+    console.error('Error fetching membership plans:', error);
+    const errorMsg = error?.response?.data?.error?.message || error?.message || 'Unknown error';
+    const status = error?.response?.status;
+    console.error('Error details:', { status, errorMsg, fullError: error });
+    plansError.value = `Failed to load membership plans${status ? ` (${status})` : ''}. ${errorMsg}. Please check browser console for details.`;
+    // Fallback to default plans if API fails
+    membershipPlans.value = [
+      {
+        id: 1,
+        name: 'Starter',
+        description: 'Perfect for beginners getting started',
+        icon: '🌱',
+        price: '2,500',
+        period: 'month',
+        features: [
+          '2 training sessions per week',
+          'Access to basic facilities',
+          'Group training only',
+          'Basic equipment usage',
+          'Monthly progress report'
+        ],
+        buttonText: 'Get Started',
+        featured: false
+      },
+      {
+        id: 2,
+        name: 'Athlete',
+        description: 'Our most popular choice for serious athletes',
+        icon: '⚡',
+        price: '4,500',
+        period: 'month',
+        features: [
+          '4 training sessions per week',
+          'Full facility access',
+          'Group & semi-private training',
+          'Premium equipment access',
+          'Nutrition guidance',
+          'Weekly progress tracking',
+          'Priority booking'
+        ],
+        buttonText: 'Choose Athlete',
+        featured: true
+      },
+      {
+        id: 3,
+        name: 'Elite',
+        description: 'Premium package for competitive athletes',
+        icon: '🏆',
+        price: '7,500',
+        period: 'month',
+        features: [
+          'Unlimited training sessions',
+          'VIP facility access',
+          'One-on-one coaching',
+          'All equipment & facilities',
+          'Personalized nutrition plan',
+          'Daily progress monitoring',
+          'Competition preparation',
+          'Recovery & wellness sessions',
+          'Priority support 24/7'
+        ],
+        buttonText: 'Go Elite',
+        featured: false
+      }
+    ];
+  } finally {
+    isLoadingPlans.value = false;
+  }
+};
+
+onMounted(() => {
+  fetchMembershipPlans();
+});
 </script>
 
 <style scoped>
@@ -343,15 +389,7 @@ const scrollToPlans = () => {
   margin-bottom: 80px;
 }
 
-.plan-card {
-  background: linear-gradient(135deg, #0d5f2e 0%, #1a1a1a 100%);
-  border-radius: 16px;
-  padding: 40px 30px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  position: relative;
-  border: 2px solid rgba(34, 197, 94, 0.2);
-}
+.plan-card { border-radius: 16px; padding: 40px 30px; position: relative; border: 1px solid var(--card-border); }
 
 .plan-card:hover {
   transform: translateY(-8px);
@@ -448,9 +486,9 @@ const scrollToPlans = () => {
 .cta-button {
   width: 100%;
   padding: 14px 24px;
-  background: rgba(34, 197, 94, 0.1);
+  background: rgba(34, 197, 94, 0.12);
   color: #22c55e;
-  border: 2px solid #22c55e;
+  border: 1px solid #22c55e;
   border-radius: 8px;
   font-size: 1rem;
   font-weight: 600;
@@ -635,6 +673,64 @@ const scrollToPlans = () => {
   background: #16a34a;
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(34, 197, 94, 0.4);
+}
+
+/* Loading, Error, and Empty States */
+.loading-state {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 20px;
+  border: 4px solid rgba(34, 197, 94, 0.2);
+  border-top-color: #22c55e;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-state p {
+  color: #d1d5db;
+  font-size: 1.1rem;
+}
+
+.error-state,
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  margin: 40px 0;
+  border-radius: 12px;
+}
+
+.error-state p,
+.empty-state p {
+  color: #d1d5db;
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+.retry-button {
+  padding: 12px 24px;
+  background: #22c55e;
+  color: #1a1a1a;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.retry-button:hover {
+  background: #16a34a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
 }
 
 /* Responsive */

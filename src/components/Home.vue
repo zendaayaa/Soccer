@@ -1,14 +1,18 @@
 <template>
   <section id="home" class="home-section">
     <div class="hero-content">
-      <h1 class="hero-title">Welcome to Aztec Sports</h1>
+      <h1 class="hero-title shimmer">Welcome to Aztec Sports</h1>
       <p class="hero-subtitle">Where passion meets excellence on the field</p>
-      <button class="cta-button">Join Our Team</button>
+      <button class="cta-button btn-primary" @click="scrollTo('#membership')">Join Our Team</button>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
+const scrollTo = (hash: string) => {
+  const el = document.querySelector(hash);
+  el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
 </script>
 
 <style scoped>
@@ -17,7 +21,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+  background: radial-gradient(800px 400px at 20% 20%, rgba(34,197,94,0.10) 0%, transparent 60%),
+              radial-gradient(800px 400px at 80% 20%, rgba(34,197,94,0.08) 0%, transparent 60%),
+              linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
   color: #fff;
   padding: 20px;
   text-align: center;
@@ -37,30 +43,24 @@
   background-clip: text;
 }
 
+.shimmer {
+  background-size: 200% 100%;
+  animation: shimmer 6s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 .hero-subtitle {
   font-size: 1.5rem;
   color: #b0b0b0;
   margin-bottom: 40px;
 }
 
-.cta-button {
-  background-color: #00A86B;
-  color: #fff;
-  border: none;
-  padding: 15px 40px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: all 0.3s;
-  font-family: 'Poppins', sans-serif;
-}
-
-.cta-button:hover {
-  background-color: #00ff9f;
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(0, 168, 107, 0.3);
-}
+.cta-button { border-radius: 999px; }
 
 @media (max-width: 768px) {
   .hero-title {

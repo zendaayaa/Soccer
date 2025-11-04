@@ -27,7 +27,7 @@
           <div 
             v-for="fixture in upcomingFixtures" 
             :key="fixture.id"
-            class="match-card upcoming"
+            class="match-card upcoming glass elevate"
           >
             <div class="match-header">
               <span class="competition">{{ fixture.competition }}</span>
@@ -77,7 +77,7 @@
           <div 
             v-for="result in recentResults" 
             :key="result.id"
-            class="match-card result"
+            class="match-card result glass elevate"
             :class="getResultClass(result)"
           >
             <div class="match-header">
@@ -189,7 +189,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import strapiService from '@/services/strapi';
 
 // TypeScript Interfaces
 interface Team {
@@ -227,8 +228,6 @@ interface StrapiMatch {
 // State
 const activeTab = ref<'upcoming' | 'results' | 'all'>('upcoming');
 const selectedMonth = ref('All');
-const isLoading = ref(false);
-const hasMore = ref(true);
 
 const tabs = [
   { label: 'Upcoming Fixtures', value: 'upcoming' },
@@ -238,125 +237,11 @@ const tabs = [
 
 const availableMonths = ['All', 'January', 'February', 'March', 'April', 'May', 'June'];
 
-// Placeholder Data - Replace with Strapi API calls
-const upcomingFixtures = ref<Match[]>([
-  {
-    id: 1,
-    competition: 'League',
-    date: '2025-10-25T15:00:00Z',
-    venue: 'Moi International Sports Centre',
-    homeTeam: {
-      name: 'Aztec Sports',
-      logo: '/Aztec.jpg'
-    },
-    awayTeam: {
-      name: 'Lions FC',
-      logo: '/Aztec.jpg'
-    },
-    status: 'upcoming'
-  },
-  {
-    id: 2,
-    competition: 'Cup Quarter Final',
-    date: '2025-10-28T14:30:00Z',
-    venue: 'Nyayo National Stadium',
-    homeTeam: {
-      name: 'Warriors United',
-      logo: '/Aztec.jpg'
-    },
-    awayTeam: {
-      name: 'Aztec Sports',
-      logo: '/Aztec.jpg'
-    },
-    status: 'upcoming'
-  },
-  {
-    id: 3,
-    competition: 'League',
-    date: '2025-11-01T16:00:00Z',
-    venue: 'Moi International Sports Centre',
-    homeTeam: {
-      name: 'Aztec Sports',
-      logo: '/Aztec.jpg'
-    },
-    awayTeam: {
-      name: 'Eagles FC',
-      logo: '/Aztec.jpg'
-    },
-    status: 'upcoming'
-  }
-]);
-
-const recentResults = ref<Match[]>([
-  {
-    id: 10,
-    competition: 'League',
-    date: '2025-10-18T15:00:00Z',
-    venue: 'Kasarani Stadium',
-    homeTeam: {
-      name: 'Aztec Sports',
-      logo: '/Aztec.jpg',
-      score: 3
-    },
-    awayTeam: {
-      name: 'Sharks FC',
-      logo: '/Aztec.jpg',
-      score: 1
-    },
-    status: 'completed'
-  },
-  {
-    id: 11,
-    competition: 'Cup Round of 16',
-    date: '2025-10-15T14:00:00Z',
-    venue: 'Nyayo National Stadium',
-    homeTeam: {
-      name: 'Tigers United',
-      logo: '/Aztec.jpg',
-      score: 1
-    },
-    awayTeam: {
-      name: 'Aztec Sports',
-      logo: '/Aztec.jpg',
-      score: 2
-    },
-    status: 'completed'
-  },
-  {
-    id: 12,
-    competition: 'League',
-    date: '2025-10-11T16:30:00Z',
-    venue: 'Moi International Sports Centre',
-    homeTeam: {
-      name: 'Aztec Sports',
-      logo: '/Aztec.jpg',
-      score: 2
-    },
-    awayTeam: {
-      name: 'Panthers FC',
-      logo: '/Aztec.jpg',
-      score: 2
-    },
-    status: 'completed'
-  },
-  {
-    id: 13,
-    competition: 'League',
-    date: '2025-10-08T15:00:00Z',
-    venue: 'City Stadium',
-    homeTeam: {
-      name: 'Rhinos FC',
-      logo: '/Aztec.jpg',
-      score: 0
-    },
-    awayTeam: {
-      name: 'Aztec Sports',
-      logo: '/Aztec.jpg',
-      score: 1
-    },
-    status: 'completed'
-  }
-]);
+const upcomingFixtures = ref<Match[]>([]);
+const recentResults = ref<Match[]>([]);
+const isLoading = ref(false);
+const hasMore = ref(false);
+const errorMessage = ref('');
 
 // Computed
 const filteredMatches = computed(() => {
@@ -429,43 +314,48 @@ const viewMatchDetails = (matchId: number) => {
 };
 
 const loadMore = async () => {
-  isLoading.value = true;
-  // TODO: Implement pagination
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  isLoading.value = false;
+  // No pagination implemented yet; hide button
   hasMore.value = false;
 };
 
 // Fetch fixtures from Strapi
-// const fetchFixtures = async () => {
-//   try {
-//     const response = await fetch(
-//       `${import.meta.env.VITE_STRAPI_URL}/api/matches?` +
-//       `filters[status][$eq]=upcoming&` +
-//       `sort=date:asc&` +
-//       `populate=*`
-//     );
-//     const data = await response.json();
-//     upcomingFixtures.value = transformStrapiData(data.data);
-//   } catch (error) {
-//     console.error('Error fetching fixtures:', error);
-//   }
-// };
+const mapMatch = (m: any): Match => ({
+  id: m.id,
+  competition: m.attributes.competition,
+  date: m.attributes.date,
+  venue: m.attributes.venue,
+  homeTeam: {
+    name: m.attributes.homeTeamName,
+    logo: strapiService.getMediaUrl(m.attributes.homeTeamLogo) || '/Aztec.jpg',
+    score: m.attributes.homeTeamScore ?? undefined,
+  },
+  awayTeam: {
+    name: m.attributes.awayTeamName,
+    logo: strapiService.getMediaUrl(m.attributes.awayTeamLogo) || '/Aztec.jpg',
+    score: m.attributes.awayTeamScore ?? undefined,
+  },
+  status: (m.attributes.status as 'upcoming' | 'completed') || 'upcoming',
+});
 
-// const fetchResults = async () => {
-//   try {
-//     const response = await fetch(
-//       `${import.meta.env.VITE_STRAPI_URL}/api/matches?` +
-//       `filters[status][$eq]=completed&` +
-//       `sort=date:desc&` +
-//       `populate=*`
-//     );
-//     const data = await response.json();
-//     recentResults.value = transformStrapiData(data.data);
-//   } catch (error) {
-//     console.error('Error fetching results:', error);
-//   }
-// };
+const fetchData = async () => {
+  isLoading.value = true;
+  errorMessage.value = '';
+  try {
+    const [upcoming, completed] = await Promise.all([
+      strapiService.getMatches({ status: 'upcoming', pageSize: 10 }),
+      strapiService.getMatches({ status: 'completed', pageSize: 10 }),
+    ]);
+    upcomingFixtures.value = upcoming.data.map(mapMatch);
+    recentResults.value = completed.data.map(mapMatch);
+  } catch (e) {
+    console.error('Error loading matches', e);
+    errorMessage.value = 'Failed to load matches.';
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+onMounted(fetchData);
 </script>
 
 <style>
@@ -590,7 +480,8 @@ const loadMore = async () => {
   .score {
     font-size: 1.5rem;
   }
-} Filter Tabs */
+}
+/* Filter Tabs */
 .filter-tabs {
   display: flex;
   justify-content: center;
@@ -637,14 +528,7 @@ const loadMore = async () => {
   margin-bottom: 40px;
 }
 
-.match-card {
-  background: linear-gradient(135deg, #0d5f2e 0%, #1a1a1a 100%);
-  border-radius: 12px;
-  padding: 25px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border: 2px solid rgba(34, 197, 94, 0.2);
-  transition: all 0.3s ease;
-}
+.match-card { border-radius: 12px; padding: 25px; border: 1px solid var(--card-border); }
 
 .match-card:hover {
   transform: translateY(-5px);

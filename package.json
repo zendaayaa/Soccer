@@ -14,8 +14,10 @@
     "type-check": "vue-tsc --build"
   },
   "dependencies": {
+    "@stripe/stripe-js": "^8.3.0",
     "axios": "^1.12.2",
-    "vue": "^3.5.22"
+    "vue": "^3.5.22",
+    "vue-router": "^4.6.3"
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.2",

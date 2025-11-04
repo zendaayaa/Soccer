@@ -1,27 +1,15 @@
 <script setup lang="ts">
 import Navbar from './components/Navbar.vue'
 import Footer from './components/Footer.vue'
-import Home from './components/Home.vue'
-import About from './components/About.vue'
-import Fixtures from './components/Fixtures.vue'
-import Announcements from './components/Announcements.vue'
-import Membership from './components/Membership.vue'
-import Contact from './components/Contact.vue'
+import { RouterView } from 'vue-router'
 </script>
 
 <template>
   <div class="app-container">
     <Navbar />
-    
     <main class="main-content">
-      <Home />
-      <About />
-      <Fixtures />
-      <Announcements />
-      <Membership />
-      <Contact />
+      <RouterView />
     </main>
-
     <Footer />
   </div>
 </template>

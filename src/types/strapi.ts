@@ -147,6 +147,7 @@ export interface MembershipPlanAttributes {
   buttonText: string;
   featured: boolean;
   order: number;
+  stripePriceId?: string;
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
@@ -162,7 +163,7 @@ export interface MatchAttributes {
   awayTeamName: string;
   awayTeamLogo: StrapiMedia;
   awayTeamScore: number | null;
-  statuss: 'upcoming' | 'live' | 'completed' | 'postponed' | 'cancelled';
+  status: 'upcoming' | 'live' | 'completed' | 'postponed' | 'cancelled';
   matchReport: string | null;
   highlights: string | null;
   createdAt: string;
