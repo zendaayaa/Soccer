@@ -367,29 +367,30 @@ onMounted(fetchData);
 
 .fixtures-section {
   min-height: 100vh;
-  padding: 80px 40px;
+  padding: clamp(3rem, 6vw, 5rem) clamp(1.25rem, 4vw, 2.5rem);
   background: linear-gradient(135deg, #0d5f2e 0%, #1a1a1a 100%);
 }
 
 .container {
-  max-width: 1400px;
+  max-width: min(1400px, 95vw);
   margin: 0 auto;
 }
 
 .section-header {
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: clamp(2rem, 4vw, 3.125rem);
 }
 
 .section-header h2 {
-  font-size: 2.5rem;
+  font-size: clamp(1.75rem, 4vw + 1rem, 2.5rem);
   font-weight: 700;
   color: #faf9f9;
-  margin-bottom: 15px;
+  margin-bottom: 0.9375rem;
+  line-height: 1.2;
 }
 
 .subtitle {
-  font-size: 1.1rem;
+  font-size: clamp(0.875rem, 1.5vw + 0.25rem, 1.1rem);
   color: #d1d5db;
 }
 
@@ -409,61 +410,41 @@ onMounted(fetchData);
   }
 }
 
+@media (max-width: 968px) {
+  .matches-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline {
+    padding-left: clamp(80px, 10vw, 100px);
+  }
+
+  .timeline-date {
+    left: clamp(-100px, -10vw, -80px);
+    width: clamp(70px, 8vw, 90px);
+  }
+}
+
 @media (max-width: 768px) {
-  .fixtures-section {
-    padding: 60px 20px;
-  }
-
-  .section-header h2 {
-    font-size: 2rem;
-  }
-
-  .filter-tabs {
-    gap: 8px;
-  }
-
-  .tab-button {
-    padding: 10px 20px;
-    font-size: 0.9rem;
-  }
-
-  .match-card {
-    padding: 20px;
-  }
-
   .match-content {
     flex-direction: column;
-    gap: 15px;
-  }
-
-  .team-logo {
-    width: 56px;
-    height: 56px;
+    gap: clamp(0.9375rem, 2vw, 1.25rem);
   }
 
   .timeline {
     padding-left: 0;
-    padding-top: 40px;
+    padding-top: clamp(2rem, 4vw, 2.5rem);
   }
 
   .timeline-date {
     position: static;
     width: 100%;
     text-align: left;
-    margin-bottom: 10px;
+    margin-bottom: 0.625rem;
   }
 
   .timeline-line {
     display: none;
-  }
-
-  .month-filter {
-    gap: 8px;
-  }
-
-  .month-btn {
-    padding: 6px 16px;
-    font-size: 0.85rem;
   }
 }
 
@@ -472,34 +453,26 @@ onMounted(fetchData);
     flex-direction: column;
     align-items: flex-start;
   }
-
-  .team-name {
-    font-size: 0.85rem;
-  }
-
-  .score {
-    font-size: 1.5rem;
-  }
 }
-/* Filter Tabs */
 .filter-tabs {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin-bottom: 50px;
+  gap: clamp(0.5rem, 1.5vw, 0.625rem);
+  margin-bottom: clamp(2rem, 4vw, 3.125rem);
   flex-wrap: wrap;
 }
 
 .tab-button {
-  padding: 12px 28px;
+  padding: clamp(0.625rem, 1.5vw, 0.75rem) clamp(1.25rem, 3vw, 1.75rem);
   background: rgba(34, 197, 94, 0.1);
   color: #d1d5db;
   border: 2px solid rgba(34, 197, 94, 0.2);
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: clamp(0.875rem, 1.5vw + 0.25rem, 1rem);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
 .tab-button:hover {
@@ -520,15 +493,19 @@ onMounted(fetchData);
   font-weight: 700;
 }
 
-/* Matches Grid */
 .matches-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-  gap: 25px;
-  margin-bottom: 40px;
+  grid-template-columns: repeat(auto-fill, minmax(clamp(280px, 30vw, 380px), 1fr));
+  gap: clamp(1.25rem, 2.5vw, 1.5625rem);
+  margin-bottom: clamp(2rem, 4vw, 2.5rem);
 }
 
-.match-card { border-radius: 12px; padding: 25px; border: 1px solid var(--card-border); }
+.match-card {
+  border-radius: 12px;
+  padding: clamp(1.25rem, 2.5vw, 1.5625rem);
+  border: 1px solid var(--card-border);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
 
 .match-card:hover {
   transform: translateY(-5px);
