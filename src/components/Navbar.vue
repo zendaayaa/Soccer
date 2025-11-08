@@ -50,21 +50,20 @@ onBeforeUnmount(() => {
 <style scoped>
 .navbar {
   background-color: rgba(0,0,0,0.55);
-  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   color: #fff;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 40px;
+  padding: clamp(0.9375rem, 2vw, 1.25rem) clamp(1.25rem, 4vw, 2.5rem);
   position: fixed;
   width: 100%;
   top: 0;
   left: 0;
   z-index: 100;
   font-family: 'Poppins', sans-serif;
-  box-sizing: border-box;
   border-bottom: 1px solid rgba(34,197,94,0.15);
+  transition: box-shadow 0.3s ease;
 }
 
 .navbar.scrolled {
@@ -72,25 +71,28 @@ onBeforeUnmount(() => {
 }
 
 .logo {
-  font-size: 1.6rem;
+  font-size: clamp(1.25rem, 2vw + 0.5rem, 1.6rem);
   font-weight: 700;
   color: #00A86B;
+  white-space: nowrap;
 }
 
 .nav-links {
   list-style: none;
   display: flex;
-  gap: 25px;
+  gap: clamp(1rem, 2vw, 1.5625rem);
   margin: 0;
   padding: 0;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease;
 }
 
 .nav-links a {
   text-decoration: none;
   color: #fff;
   position: relative;
+  font-size: clamp(0.875rem, 1.5vw + 0.25rem, 1rem);
   transition: color 0.3s;
+  white-space: nowrap;
 }
 
 .nav-links a::after {
@@ -113,21 +115,23 @@ onBeforeUnmount(() => {
 
 .menu-icon {
   display: none;
-  font-size: 1.8rem;
+  font-size: clamp(1.5rem, 3vw, 1.8rem);
   cursor: pointer;
+  padding: 0.25rem;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 968px) {
   .nav-links {
     position: absolute;
-    top: 65px;
+    top: 100%;
+    left: 0;
     right: 0;
-    background-color: rgba(0,0,0,0.85);
+    background-color: rgba(0,0,0,0.95);
     flex-direction: column;
-    width: 100%;
     text-align: center;
     display: none;
-    padding: 20px 0;
+    padding: 1.25rem 0;
+    gap: 0;
   }
   
   .nav-links.open {
@@ -135,7 +139,8 @@ onBeforeUnmount(() => {
   }
   
   .nav-links li {
-    padding: 10px 0;
+    padding: 0.625rem 0;
+    width: 100%;
   }
   
   .menu-icon {
