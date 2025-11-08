@@ -140,102 +140,101 @@ export default {
 
 .about-section {
   background: linear-gradient(135deg, #0d5f2e 0%, #1a1a1a 100%);
-  padding: 60px 20px;
+  padding: clamp(3rem, 6vw, 5rem) clamp(1.25rem, 4vw, 2.5rem);
   min-height: 100vh;
 }
 
 .container {
-  max-width: 1200px;
+  max-width: min(1200px, 95vw);
   margin: 0 auto;
 }
 
-/* Hero Section */
 .hero-section {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  gap: clamp(2rem, 4vw, 2.5rem);
   align-items: center;
-  margin-bottom: 80px;
+  margin-bottom: clamp(3rem, 6vw, 5rem);
   background: linear-gradient(135deg, #0d5f2e 0%, #1a1a1a 100%);
-  padding: 40px;
+  padding: clamp(2rem, 4vw, 2.5rem);
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .hero-content h1 {
-  font-size: 3em;
+  font-size: clamp(1.75rem, 4vw + 1rem, 3rem);
   color: #faf9f9;
-  margin-bottom: 10px;
-  font-weight: bold;
+  margin-bottom: 0.625rem;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
 .subtitle {
-  font-size: 1.5em;
+  font-size: clamp(1.125rem, 2vw + 0.5rem, 1.5rem);
   color: #22c55e;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 }
 
 .hero-image {
   width: 100%;
   border-radius: 10px;
   object-fit: cover;
-  height: 300px;
+  height: clamp(200px, 30vw, 300px);
+  aspect-ratio: 16/9;
 }
 
-/* Mission & Vision */
 .mission-vision {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  margin-bottom: 80px;
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  gap: clamp(2rem, 4vw, 2.5rem);
+  margin-bottom: clamp(3rem, 6vw, 5rem);
 }
 
 .mission,
 .vision {
   background: linear-gradient(135deg, #0d5f2e 0%, #1a1a1a 100%);
-  padding: 40px;
+  padding: clamp(2rem, 4vw, 2.5rem);
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .mission h2,
 .vision h2 {
-  font-size: 2em;
+  font-size: clamp(1.5rem, 3vw + 0.5rem, 2rem);
   color: #3ec708;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
   border-bottom: 3px solid #22c55e;
-  padding-bottom: 10px;
+  padding-bottom: 0.625rem;
 }
 
 .mission p,
 .vision p {
-  font-size: 1.1em;
+  font-size: clamp(1rem, 1.5vw + 0.5rem, 1.1rem);
   color: #f7f8f7;
   line-height: 1.8;
 }
 
-/* Values Section */
 .values-section {
-  margin-bottom: 80px;
+  margin-bottom: clamp(3rem, 6vw, 5rem);
 }
 
 .values-section h2 {
-  font-size: 2.5em;
+  font-size: clamp(1.75rem, 4vw + 1rem, 2.5rem);
   color: #f1eeee;
   text-align: center;
-  margin-bottom: 50px;
-  font-weight: bold;
+  margin-bottom: clamp(2rem, 4vw, 3.125rem);
+  font-weight: 700;
 }
 
 .values-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(clamp(200px, 25vw, 250px), 1fr));
+  gap: clamp(1.5rem, 3vw, 1.875rem);
 }
 
 .value-card {
   background: linear-gradient(135deg, #0d5f2e 0%, #1a1a1a 100%);
-  padding: 30px;
+  padding: clamp(1.5rem, 3vw, 1.875rem);
   border-radius: 10px;
   text-align: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -248,38 +247,38 @@ export default {
 }
 
 .value-icon {
-  font-size: 3em;
-  margin-bottom: 15px;
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin-bottom: 0.9375rem;
 }
 
 .value-card h3 {
-  font-size: 1.5em;
+  font-size: clamp(1.125rem, 2vw + 0.5rem, 1.5rem);
   color: #06f025;
-  margin-bottom: 10px;
+  margin-bottom: 0.625rem;
 }
 
 .value-card p {
   color: #f7f3f3;
   line-height: 1.6;
+  font-size: clamp(0.875rem, 1.5vw + 0.25rem, 1rem);
 }
 
-/* Team Section */
 .team-section {
-  margin-bottom: 80px;
+  margin-bottom: clamp(3rem, 6vw, 5rem);
 }
 
 .team-section h2 {
-  font-size: 2.5em;
+  font-size: clamp(1.75rem, 4vw + 1rem, 2.5rem);
   color: #f2f3f2;
   text-align: center;
-  margin-bottom: 50px;
-  font-weight: bold;
+  margin-bottom: clamp(2rem, 4vw, 3.125rem);
+  font-weight: 700;
 }
 
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(clamp(250px, 30vw, 280px), 1fr));
+  gap: clamp(1.5rem, 3vw, 1.875rem);
 }
 
 .team-card { 
@@ -297,29 +296,28 @@ export default {
 
 .team-image {
   width: 100%;
-  height: 250px;
+  height: clamp(200px, 25vw, 250px);
   object-fit: cover;
 }
 
 .team-card h3 {
-  font-size: 1.3em;
+  font-size: clamp(1.125rem, 2vw + 0.5rem, 1.3rem);
   color: #f3efef;
-  margin: 20px 0 5px;
+  margin: clamp(1rem, 2vw, 1.25rem) 0 0.3125rem;
 }
 
 .team-card p {
   color: #22c55e;
-  padding-bottom: 20px;
+  padding-bottom: clamp(1rem, 2vw, 1.25rem);
   font-weight: 500;
 }
 
-/* Stats Section */
 .stats-section {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(clamp(150px, 20vw, 200px), 1fr));
+  gap: clamp(1.5rem, 3vw, 1.875rem);
   background: linear-gradient(135deg, #0d5f2e 0%, #1a1a1a 100%);
-  padding: 40px;
+  padding: clamp(2rem, 4vw, 2.5rem);
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -329,35 +327,14 @@ export default {
 }
 
 .stat-number {
-  font-size: 2.5em;
+  font-size: clamp(1.75rem, 3vw + 1rem, 2.5rem);
   color: #22c55e;
-  font-weight: bold;
-  margin-bottom: 10px;
+  font-weight: 700;
+  margin-bottom: 0.625rem;
 }
 
 .stat-card p {
   color: #f1efef;
-  font-size: 1.1em;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .hero-section,
-  .mission-vision {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-content h1 {
-    font-size: 2em;
-  }
-
-  .subtitle {
-    font-size: 1.2em;
-  }
-
-  .values-section h2,
-  .team-section h2 {
-    font-size: 2em;
-  }
+  font-size: clamp(0.875rem, 1.5vw + 0.25rem, 1.1rem);
 }
 </style>

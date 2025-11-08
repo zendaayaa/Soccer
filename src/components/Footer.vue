@@ -71,17 +71,16 @@ const currentYear = computed(() => new Date().getFullYear());
 .footer {
   background-color: #0a0a0a;
   color: #fff;
-  padding: 60px 40px 20px;
+  padding: clamp(2.5rem, 6vw, 3.75rem) clamp(1.25rem, 4vw, 2.5rem) clamp(1.25rem, 2vw, 1.5rem);
   font-family: 'Poppins', sans-serif;
 }
 
 .footer-content {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 40px;
-  max-width: 1200px;
-  margin: 0 auto;
-  margin-bottom: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(clamp(200px, 25vw, 250px), 1fr));
+  gap: clamp(2rem, 4vw, 2.5rem);
+  max-width: min(1200px, 95vw);
+  margin: 0 auto clamp(2rem, 4vw, 2.5rem);
 }
 
 .footer-section {
@@ -90,21 +89,22 @@ const currentYear = computed(() => new Date().getFullYear());
 }
 
 .footer-title {
-  font-size: 1.8rem;
+  font-size: clamp(1.25rem, 3vw + 0.5rem, 1.8rem);
   font-weight: 700;
   color: #00A86B;
-  margin-bottom: 15px;
+  margin-bottom: 0.9375rem;
 }
 
 .footer-description {
   color: #b0b0b0;
   line-height: 1.6;
-  margin-bottom: 20px;
+  margin-bottom: clamp(1rem, 2vw, 1.25rem);
+  font-size: clamp(0.875rem, 1.5vw + 0.25rem, 1rem);
 }
 
 .social-icons {
   display: flex;
-  gap: 15px;
+  gap: clamp(0.75rem, 2vw, 0.9375rem);
 }
 
 .social-link {
@@ -121,9 +121,9 @@ const currentYear = computed(() => new Date().getFullYear());
 }
 
 .section-title {
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 2vw + 0.5rem, 1.2rem);
   font-weight: 600;
-  margin-bottom: 20px;
+  margin-bottom: clamp(1rem, 2vw, 1.25rem);
   color: #00A86B;
 }
 
@@ -136,7 +136,7 @@ const currentYear = computed(() => new Date().getFullYear());
 
 .footer-links li,
 .contact-info li {
-  margin-bottom: 12px;
+  margin-bottom: clamp(0.625rem, 1.5vw, 0.75rem);
 }
 
 .footer-links a {
@@ -144,37 +144,25 @@ const currentYear = computed(() => new Date().getFullYear());
   text-decoration: none;
   transition: color 0.3s, padding-left 0.3s;
   display: inline-block;
+  font-size: clamp(0.875rem, 1.5vw + 0.25rem, 1rem);
 }
 
 .footer-links a:hover {
   color: #00A86B;
-  padding-left: 5px;
+  padding-left: 0.3125rem;
 }
 
 .contact-info li {
   color: #b0b0b0;
   line-height: 1.8;
+  font-size: clamp(0.875rem, 1.5vw + 0.25rem, 1rem);
 }
 
 .footer-bottom {
   text-align: center;
-  padding-top: 30px;
+  padding-top: clamp(1.5rem, 3vw, 1.875rem);
   border-top: 1px solid #333;
   color: #888;
-}
-
-@media (max-width: 768px) {
-  .footer {
-    padding: 40px 20px 20px;
-  }
-
-  .footer-content {
-    grid-template-columns: 1fr;
-    gap: 30px;
-  }
-
-  .footer-title {
-    font-size: 1.5rem;
-  }
+  font-size: clamp(0.8125rem, 1.5vw + 0.25rem, 0.9375rem);
 }
 </style>
